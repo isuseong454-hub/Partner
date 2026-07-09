@@ -106,6 +106,7 @@ body{
 .lg-btn:active{transform:scale(.99)}
 .lg-msg{font-size:12px;color:var(--c-pink);text-align:center;min-height:16px;font-weight:600}
 .lg-hint{font-size:11px;color:var(--sub2);text-align:center;margin-top:6px;line-height:1.6;position:relative;z-index:1}
+.lg-back{margin-top:18px;background:none;border:none;color:var(--sub);font-family:inherit;font-size:12.5px;cursor:pointer;position:relative;z-index:1}
 
 /* ============ 챕터1 메인 표지 (그라데이션 블롭 그리드) ============ */
 #chapter1{position:fixed;inset:0;z-index:260;background:#0A0A0D;display:flex;flex-direction:column;padding:24px 0 calc(26px + env(safe-area-inset-bottom));overflow:hidden;transition:opacity .7s ease,transform .7s cubic-bezier(.4,0,.2,1)}
@@ -1318,8 +1319,8 @@ body.secret-locked .mode-toggle{display:none}
 </head>
 <body>
 
-<!-- ============ 로그인 (맨 앞) ============ -->
-<div id="loginView">
+<!-- ============ 로그인 (메인 지나서 진입 시) ============ -->
+<div id="loginView" class="hide">
   <div class="lg-mark">💇</div>
   <div class="lg-title serif">고객 파트너</div>
   <div class="lg-sub">HAIR CRM STUDIO</div>
@@ -1330,6 +1331,7 @@ body.secret-locked .mode-toggle{display:none}
     <div class="lg-msg" id="lgMsg"></div>
   </div>
   <div class="lg-hint">발급받은 아이디·비밀번호로 로그인하세요</div>
+  <button class="lg-back" onclick="closeLogin()">‹ 메인으로</button>
 </div>
 
 <!-- ============ 챕터1 메인 표지 ============ -->
@@ -2254,9 +2256,17 @@ function engPick(i){
   card.classList.remove('on');void card.offsetWidth;card.classList.add('on');
 }
 
-/* ===== 로그인 (맨 앞 게이트) ===== */
+/* ===== 로그인 게이트 (메인 스테이지 → 시작하기 누르면) ===== */
 const LOGIN_KEY='hcs-login';
 const VALID_ACCOUNTS={'EEEEEE':'2222'}; /* 아이디:비밀번호 — 나중에 여러 계정/Supabase로 확장 */
+let _loginNext=null;
+function isLoggedIn(){var s='';try{s=localStorage.getItem(LOGIN_KEY)||'';}catch(e){}return !!(s&&VALID_ACCOUNTS[s]);}
+function requireLogin(next){
+  if(isLoggedIn()){next();return;} /* 이미 로그인 → 바로 진행 */
+  _loginNext=next;
+  document.getElementById('loginView').classList.remove('hide');
+  var idEl=document.getElementById('lgId');if(idEl)setTimeout(function(){idEl.focus();},120);
+}
 function doLogin(){
   var id=(document.getElementById('lgId').value||'').trim().toUpperCase();
   var pw=(document.getElementById('lgPw').value||'').trim();
@@ -2264,22 +2274,21 @@ function doLogin(){
     try{localStorage.setItem(LOGIN_KEY,id);}catch(e){}
     document.getElementById('loginView').classList.add('hide');
     document.getElementById('lgMsg').textContent='';
+    if(_loginNext){var f=_loginNext;_loginNext=null;f();} /* 로그인 후 원래 가려던 곳으로 */
   }else{
     document.getElementById('lgMsg').textContent='아이디 또는 비밀번호가 달라요';
     var pwEl=document.getElementById('lgPw');if(pwEl){pwEl.value='';pwEl.focus();}
   }
 }
-function checkLogin(){
-  var saved='';try{saved=localStorage.getItem(LOGIN_KEY)||'';}catch(e){}
-  var lv=document.getElementById('loginView');if(!lv)return;
-  if(saved&&VALID_ACCOUNTS[saved])lv.classList.add('hide'); /* 이미 로그인 → 건너뜀 */
-}
+function closeLogin(){document.getElementById('loginView').classList.add('hide');_loginNext=null;}
 function logout(){
   if(!confirm('로그아웃 할까요?\n(고객·상담 데이터는 이 기기에 그대로 남아있어요)'))return;
   try{localStorage.removeItem(LOGIN_KEY);}catch(e){}
   location.reload();
 }
-function enterFromCover(){document.getElementById('chapter1').classList.add('hide');}
+/* 메인 스테이지 → 앱 진입은 로그인 통과 후 */
+function _enterCover(){document.getElementById('chapter1').classList.add('hide');}
+function enterFromCover(){requireLogin(_enterCover);}
 /* 메인 스테이지: 6개 얼굴형 카드를 두 벌 이어붙여 무한 흐름 */
 function buildCover(){
   var t=document.getElementById('c1Track');if(!t)return;
@@ -2288,7 +2297,7 @@ function buildCover(){
     return '<div class="c1-card" onclick="coverStart()"><img src="이미지/cover-'+n+'.png" draggable="false"></div>';
   }).join('');
 }
-function coverStart(){enterFromCover();if(typeof openFD==='function')openFD();}
+function coverStart(){requireLogin(function(){_enterCover();if(typeof openFD==='function')openFD();});}
 /* 챕터2 스캔 얼굴 — fdView와 같은 그물/스캔 모션을 이 페이지에 심기 */
 function scanMeshHTML(){
   var s='<ellipse cx="90" cy="112" rx="54" ry="72"/>';
@@ -4416,7 +4425,7 @@ function svSubmit(){
 }
 
 loadCustomers();purgeOldCustomers();loadLookbook();loadProducts();loadEvents();loadPromos();loadMini();loadMenuBook();initCal();initLbx();preloadFaceImgs();lockSecret();rtSync();
-buildTicker();buildGallery();buildMenus();renderStep();initBASlider();renderCustomers();renderCal();initEngine();buildCover();buildC2Scan();checkLogin();
+buildTicker();buildGallery();buildMenus();renderStep();initBASlider();renderCustomers();renderCal();initEngine();buildCover();buildC2Scan();
 /* PWA 서비스 워커 등록 (배포 후 오프라인·앱 설치) */
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 /* 개인 링크(?c=)로 열면 고객 설문 화면으로 부팅 */
