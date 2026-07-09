@@ -1,5 +1,5 @@
-/* 고객 파트너 · 서비스 워커 (오프라인 캐시) */
-const CACHE = 'customer-partner-v1';
+/* 고객 파트너 · 서비스 워커 (오프라인 캐시 + 업데이트 즉시 반영) */
+const CACHE = 'customer-partner-v2';
 const CORE = [
   './',
   './index.html',
@@ -30,6 +30,24 @@ self.addEventListener('fetch', function (e) {
   if (req.method !== 'GET') return;
   var url = new URL(req.url);
   if (url.origin !== location.origin) return; /* CDN 폰트 등은 네트워크에 맡김 */
+
+  var isPage = req.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('/');
+
+  if (isPage) {
+    /* 페이지·index.html = 네트워크 우선 (배포하면 바로 최신으로 보임, 오프라인이면 캐시) */
+    e.respondWith(
+      fetch(req).then(function (res) {
+        var copy = res.clone();
+        caches.open(CACHE).then(function (c) { c.put(req, copy); });
+        return res;
+      }).catch(function () {
+        return caches.match(req).then(function (c) { return c || caches.match('./index.html'); });
+      })
+    );
+    return;
+  }
+
+  /* 이미지 등 정적 자원 = 캐시 우선 (빠르게), 없으면 네트워크 */
   e.respondWith(
     caches.match(req).then(function (cached) {
       if (cached) return cached;
@@ -37,9 +55,6 @@ self.addEventListener('fetch', function (e) {
         var copy = res.clone();
         caches.open(CACHE).then(function (c) { c.put(req, copy); });
         return res;
-      }).catch(function () {
-        /* 오프라인이고 캐시에도 없으면 — 페이지 요청이면 앱 셸로 */
-        if (req.mode === 'navigate') return caches.match('./index.html');
       });
     })
   );

@@ -78,6 +78,10 @@ body{
 .tk-card svg{width:100%;height:100%;display:block}
 .tk-cap{position:absolute;bottom:0;left:0;right:0;padding:16px 10px 9px;background:linear-gradient(transparent,rgba(10,10,14,.82));font-size:11px;font-weight:600;color:#fff}
 .tk-dot{position:absolute;top:9px;left:9px;width:6px;height:6px;border-radius:50%}
+/* 챕터2 스캔 얼굴 (진단 모션 임팩트) */
+.c2-scan{position:relative;width:min(196px,50vw);aspect-ratio:3/4;margin:22px auto 4px;border-radius:16px;overflow:hidden;border:1px solid var(--line2);box-shadow:0 16px 44px rgba(0,0,0,.5),0 0 44px rgba(142,123,240,.16)}
+.c2-scan img{width:100%;height:100%;object-fit:cover;display:block}
+.c2-scan-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.12),transparent 42%,rgba(12,12,15,.35));pointer-events:none}
 .c2-actions{margin-top:auto;display:flex;flex-direction:column;gap:12px}
 .c2-btn{border:none;border-radius:16px;padding:17px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.2,.6,.2,1);display:flex;align-items:center;justify-content:center;gap:8px}
 .c2-btn.main{background:#fff;color:#0C0C0F;box-shadow:0 6px 24px rgba(124,92,255,.25)}
@@ -1332,10 +1336,15 @@ body.secret-locked .mode-toggle{display:none}
         <span class="c2-fade accent" style="animation-delay:.42s">라인을 찾다</span>
       </div>
       <div class="c2-sub c2-fade" style="animation-delay:.58s">얼굴형과 지금 상태를 함께 보고,<br>가장 예뻐지는 방향을 제안해요.</div>
-      <div class="ticker c2-fade" style="animation-delay:.66s"><div class="ticker-track" id="tickerTrack"></div></div>
+      <div class="c2-scan c2-fade" style="animation-delay:.66s">
+        <img src="이미지/face-oval.png" alt="">
+        <svg class="fd-mesh" id="c2Mesh" viewBox="0 0 180 240" preserveAspectRatio="xMidYMid slice"></svg>
+        <div class="fd-scan"></div>
+        <div class="c2-scan-grad"></div>
+      </div>
     </div>
     <div class="c2-actions c2-fade" style="animation-delay:.72s">
-      <button class="c2-btn main" onclick="openFD()">💠 얼굴형 진단 <span class="ar">→</span></button>
+      <button class="c2-btn main" onclick="enterApp('consult')">💠 얼굴형 진단 <span class="ar">→</span></button>
       <button class="c2-btn ghost" onclick="enterApp('consult')">상담 시작하기 <span class="ar">→</span></button>
       <button class="c2-btn ghost" onclick="openGallery()">스타일 갤러리 둘러보기</button>
       <button class="c2-btn ghost" onclick="enterApp('home')">내 홈으로 <span class="ar">→</span></button>
@@ -1955,7 +1964,7 @@ body.secret-locked .mode-toggle{display:none}
 
 <script>
 const S={face:null,pains:[],styles:[],menus:[],promo:null,promoPrice:0,facePhoto:null,foScale:1,foX:0,foY:0,foLocked:false};
-let step=0,_lastStep=0,_prevTotal=0,_consultCust=null;
+let step=0,_lastStep=0,_prevTotal=0,_consultCust=null,_consultDone=false;
 function countUp(el,to,o){o=o||{};var from=o.from||0,dur=o.dur||700,dec=o.dec||0,suf=o.suf||'',t0=null;function f(n){return (dec?n.toFixed(dec):Math.round(n).toLocaleString())+suf;}function tick(ts){t0=t0||ts;var p=Math.min((ts-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=f(from+(to-from)*e);if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);}
 function renderBriefing(){
   var el=document.getElementById('homeBrief');if(!el)return;
@@ -2225,6 +2234,16 @@ function buildCover(){
   }).join('');
 }
 function coverStart(){enterFromCover();if(typeof openFD==='function')openFD();}
+/* 챕터2 스캔 얼굴 — fdView와 같은 그물/스캔 모션을 이 페이지에 심기 */
+function scanMeshHTML(){
+  var s='<ellipse cx="90" cy="112" rx="54" ry="72"/>';
+  var gds=[[90,26,90,202],[34,52,146,52],[34,92,146,92],[34,152,146,152]];
+  s+=gds.map(function(g,gi){return '<line class="gd" x1="'+g[0]+'" y1="'+g[1]+'" x2="'+g[2]+'" y2="'+g[3]+'" style="animation-delay:'+(gi*160)+'ms"/>';}).join('');
+  s+=SC_EDGES.map(function(e,j){var a=SC_PTS[e[0]],b=SC_PTS[e[1]];return '<line x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'" style="animation-delay:'+(180+j*12)+'ms"/>';}).join('');
+  s+=SC_PTS.map(function(p,i){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="1.6" style="animation-delay:'+(i*22)+'ms"/>';}).join('');
+  return s;
+}
+function buildC2Scan(){var svg=document.getElementById('c2Mesh');if(svg&&!svg.dataset.built){svg.innerHTML=scanMeshHTML();svg.dataset.built='1';}}
 function enterApp(view){
   document.getElementById('chapter1').classList.add('hide');
   document.getElementById('chapter2').classList.add('hide');
@@ -2699,7 +2718,7 @@ function injectFaceThumb(k){
 }
 function resetConsultState(){
   S.face=null;S.pains=[];S.styles=[];S.menus=[];S.promo=null;S.promoPrice=0;S.facePhoto=null;S.foScale=1;S.foX=0;S.foY=0;S.foLocked=false;
-  S.ratio=null;S.pcolor=null;S.planOn=false;
+  S.ratio=null;S.pcolor=null;S.planOn=false;_consultDone=false;
   var _pc=document.getElementById('planChk');if(_pc)_pc.classList.remove('on');
   if(typeof RT_DEF!=='undefined'){rtPos=RT_DEF.slice();var _sv=document.getElementById('rtSaved');if(_sv)_sv.style.display='none';rtSync();}
   document.querySelectorAll('#s0 .face').forEach(f=>f.classList.remove('sel'));
@@ -3164,14 +3183,14 @@ function renderStep(){
   if(act){act.style.animation='none';requestAnimationFrame(function(){act.style.animation=(dir>0?'slideInR':'slideInL')+' .42s cubic-bezier(.2,.7,.2,1)';});}
   document.querySelectorAll('.step').forEach((s,i)=>{s.classList.toggle('active',i===step);s.classList.toggle('done',i<step);});
   document.getElementById('backBtn').style.display=step===0?'none':'block';
-  document.getElementById('nextBtn').textContent=NEXT_LABELS[step];
+  document.getElementById('nextBtn').textContent=(_consultDone&&step===3)?'🏠 상담 완료 · 홈으로':NEXT_LABELS[step];
   if(step===1)frSync();
   if(step===2)renderEventShowcase();
   if(step===3){setFreq();renderEventShowcase();renderPromoShowcase();renderProductShowcase();}
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function goStep(n){step=n;renderStep();}
-function nextStep(){if(step<3){step++;renderStep();}else openSheet();}
+function nextStep(){if(step<3){step++;renderStep();}else if(_consultDone){exitConsult();}else openSheet();}
 function prevStep(){if(step>0){step--;renderStep();}}
 
 function openSheet(){
@@ -3260,7 +3279,7 @@ function confirmAll(){
     var items=S.menus.map(m=>m.name),total=S.menus.reduce((a,b)=>a+b.price,0)+(S.promoPrice||0);
     if(items.length){_consultCust.history=_consultCust.history||[];_consultCust.history.unshift({date:todayYMD(),items:items,total:total});_consultCust.visits=(_consultCust.visits||0)+1;saveCustomers();renderCustomers();toast(_consultCust.name+'님 이력에 오늘 상담이 기록됐어요');}
   }
-  closeSheet();const btn=document.getElementById('nextBtn');btn.textContent='✓ 예약 확정 · 링크 전송됨';btn.classList.remove('btn-primary');btn.classList.add('btn-gold');setTimeout(()=>{btn.classList.add('btn-primary');btn.classList.remove('btn-gold');btn.textContent='상담 마무리';},2600);}
+  closeSheet();_consultDone=true;const btn=document.getElementById('nextBtn');btn.textContent='✓ 예약 확정 · 링크 전송됨';btn.classList.remove('btn-primary');btn.classList.add('btn-gold');setTimeout(()=>{btn.classList.add('btn-primary');btn.classList.remove('btn-gold');btn.textContent='🏠 상담 완료 · 홈으로';},2600);}
 function toggleMode(){document.body.classList.toggle('dzmode');document.getElementById('modeToggle').classList.toggle('on');}
 
 
@@ -4342,7 +4361,7 @@ function svSubmit(){
 }
 
 loadCustomers();purgeOldCustomers();loadLookbook();loadProducts();loadEvents();loadPromos();loadMini();loadMenuBook();initCal();initLbx();preloadFaceImgs();lockSecret();rtSync();
-buildTicker();buildGallery();buildMenus();renderStep();initBASlider();renderCustomers();renderCal();initEngine();buildCover();
+buildTicker();buildGallery();buildMenus();renderStep();initBASlider();renderCustomers();renderCal();initEngine();buildCover();buildC2Scan();
 /* PWA 서비스 워커 등록 (배포 후 오프라인·앱 설치) */
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 /* 개인 링크(?c=)로 열면 고객 설문 화면으로 부팅 */
