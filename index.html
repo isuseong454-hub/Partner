@@ -91,6 +91,21 @@ body{
 .c2-btn.main:hover .ar{transform:translateX(4px);opacity:1}
 .c2-btn.ghost{background:rgba(255,255,255,.03);border:1px solid var(--line2);color:var(--ink)}
 .c2-btn.ghost:hover{background:rgba(255,255,255,.07)}
+/* ============ 로그인 (맨 앞) ============ */
+#loginView{position:fixed;inset:0;z-index:300;background:#0A0A0D;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px}
+#loginView.hide{display:none}
+#loginView::before{content:'';position:absolute;top:6%;left:50%;transform:translateX(-50%);width:420px;height:320px;background:radial-gradient(ellipse,rgba(142,123,240,.18),transparent 70%);pointer-events:none}
+.lg-mark{width:60px;height:60px;border-radius:18px;background:linear-gradient(135deg,var(--c-purple),var(--c-pink));display:grid;place-items:center;font-size:28px;position:relative;z-index:1;box-shadow:0 10px 30px rgba(142,123,240,.4)}
+.lg-title{font-family:'Gowun Batang',serif;font-size:24px;font-weight:700;margin-top:16px;position:relative;z-index:1}
+.lg-sub{font-size:12px;color:var(--sub);margin-top:6px;letter-spacing:2px;position:relative;z-index:1}
+.lg-form{width:min(340px,100%);margin-top:28px;display:flex;flex-direction:column;gap:11px;position:relative;z-index:1}
+.lg-form input{width:100%;border:1.5px solid var(--line2);border-radius:13px;background:var(--card2);color:var(--ink);font-family:inherit;font-size:15px;padding:15px 16px;text-align:center;letter-spacing:2px}
+.lg-form input:focus{outline:none;border-color:var(--violet)}
+.lg-form input::placeholder{color:var(--sub2);letter-spacing:0}
+.lg-btn{width:100%;border:none;border-radius:13px;padding:16px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--c-purple),var(--violet-d));color:#fff;box-shadow:0 8px 24px rgba(142,123,240,.35);margin-top:4px}
+.lg-btn:active{transform:scale(.99)}
+.lg-msg{font-size:12px;color:var(--c-pink);text-align:center;min-height:16px;font-weight:600}
+.lg-hint{font-size:11px;color:var(--sub2);text-align:center;margin-top:6px;line-height:1.6;position:relative;z-index:1}
 
 /* ============ 챕터1 메인 표지 (그라데이션 블롭 그리드) ============ */
 #chapter1{position:fixed;inset:0;z-index:260;background:#0A0A0D;display:flex;flex-direction:column;padding:24px 0 calc(26px + env(safe-area-inset-bottom));overflow:hidden;transition:opacity .7s ease,transform .7s cubic-bezier(.4,0,.2,1)}
@@ -1303,6 +1318,20 @@ body.secret-locked .mode-toggle{display:none}
 </head>
 <body>
 
+<!-- ============ 로그인 (맨 앞) ============ -->
+<div id="loginView">
+  <div class="lg-mark">💇</div>
+  <div class="lg-title serif">고객 파트너</div>
+  <div class="lg-sub">HAIR CRM STUDIO</div>
+  <div class="lg-form">
+    <input id="lgId" placeholder="아이디 (코드)" autocomplete="off" autocapitalize="characters" onkeydown="if(event.key==='Enter')document.getElementById('lgPw').focus()">
+    <input id="lgPw" type="password" inputmode="numeric" placeholder="비밀번호" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="lg-btn" onclick="doLogin()">로그인</button>
+    <div class="lg-msg" id="lgMsg"></div>
+  </div>
+  <div class="lg-hint">발급받은 아이디·비밀번호로 로그인하세요</div>
+</div>
+
 <!-- ============ 챕터1 메인 표지 ============ -->
 <div id="chapter1">
   <div class="c1-top">
@@ -1945,6 +1974,7 @@ body.secret-locked .mode-toggle{display:none}
         <div class="mg-item" onclick="exportData()"><span class="mg-ic">💾</span><div class="mg-b"><div class="mg-t">데이터 백업 (내보내기)</div><div class="mg-d">고객·상담·설정 전체를 파일로 저장 · 기기 바꾸기 전 필수</div></div><span class="mg-ar">›</span></div>
         <div class="mg-item" onclick="document.getElementById('importFile').click()"><span class="mg-ic">📥</span><div class="mg-b"><div class="mg-t">백업 불러오기 (가져오기)</div><div class="mg-d">저장해둔 백업 파일로 전체 복원</div></div><span class="mg-ar">›</span></div>
         <input type="file" id="importFile" accept="application/json,.json" style="display:none" onchange="importData(this)">
+        <div class="mg-item" onclick="logout()"><span class="mg-ic">🚪</span><div class="mg-b"><div class="mg-t">로그아웃</div><div class="mg-d">다른 아이디로 로그인 · 데이터는 기기에 유지</div></div><span class="mg-ar">›</span></div>
       </div>
       <div id="mgSub" style="display:none">
         <div class="mg-subhead"><button onclick="mgBack()">‹ 관리</button><span id="mgSubTitle"></span></div>
@@ -2224,6 +2254,31 @@ function engPick(i){
   card.classList.remove('on');void card.offsetWidth;card.classList.add('on');
 }
 
+/* ===== 로그인 (맨 앞 게이트) ===== */
+const LOGIN_KEY='hcs-login';
+const VALID_ACCOUNTS={'EEEEEE':'2222'}; /* 아이디:비밀번호 — 나중에 여러 계정/Supabase로 확장 */
+function doLogin(){
+  var id=(document.getElementById('lgId').value||'').trim().toUpperCase();
+  var pw=(document.getElementById('lgPw').value||'').trim();
+  if(VALID_ACCOUNTS[id]&&VALID_ACCOUNTS[id]===pw){
+    try{localStorage.setItem(LOGIN_KEY,id);}catch(e){}
+    document.getElementById('loginView').classList.add('hide');
+    document.getElementById('lgMsg').textContent='';
+  }else{
+    document.getElementById('lgMsg').textContent='아이디 또는 비밀번호가 달라요';
+    var pwEl=document.getElementById('lgPw');if(pwEl){pwEl.value='';pwEl.focus();}
+  }
+}
+function checkLogin(){
+  var saved='';try{saved=localStorage.getItem(LOGIN_KEY)||'';}catch(e){}
+  var lv=document.getElementById('loginView');if(!lv)return;
+  if(saved&&VALID_ACCOUNTS[saved])lv.classList.add('hide'); /* 이미 로그인 → 건너뜀 */
+}
+function logout(){
+  if(!confirm('로그아웃 할까요?\n(고객·상담 데이터는 이 기기에 그대로 남아있어요)'))return;
+  try{localStorage.removeItem(LOGIN_KEY);}catch(e){}
+  location.reload();
+}
 function enterFromCover(){document.getElementById('chapter1').classList.add('hide');}
 /* 메인 스테이지: 6개 얼굴형 카드를 두 벌 이어붙여 무한 흐름 */
 function buildCover(){
@@ -4361,7 +4416,7 @@ function svSubmit(){
 }
 
 loadCustomers();purgeOldCustomers();loadLookbook();loadProducts();loadEvents();loadPromos();loadMini();loadMenuBook();initCal();initLbx();preloadFaceImgs();lockSecret();rtSync();
-buildTicker();buildGallery();buildMenus();renderStep();initBASlider();renderCustomers();renderCal();initEngine();buildCover();buildC2Scan();
+buildTicker();buildGallery();buildMenus();renderStep();initBASlider();renderCustomers();renderCal();initEngine();buildCover();buildC2Scan();checkLogin();
 /* PWA 서비스 워커 등록 (배포 후 오프라인·앱 설치) */
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 /* 개인 링크(?c=)로 열면 고객 설문 화면으로 부팅 */
