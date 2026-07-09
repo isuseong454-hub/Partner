@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>앞머리 미리 얹어보기</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0C0C0F;--bg2:#131318;--card:#17171D;--card2:#1D1D24;--ink:#F4F2F7;--sub:#9995A5;--sub2:#6E6A7A;--line:#26252E;--line2:#332F3D;--pp:#8E7BF0}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--ink);font-family:Pretendard,-apple-system,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+.wrap{width:min(430px,100vw);padding:26px 20px 40px;position:relative}
+.glow{position:fixed;top:-120px;left:50%;transform:translateX(-50%);width:420px;height:320px;background:radial-gradient(ellipse,rgba(142,123,240,.16),transparent 70%);pointer-events:none}
+.brand{font-size:11px;letter-spacing:3px;color:var(--sub2);text-transform:uppercase;text-align:center}
+h1{font-family:'Gowun Batang',serif;font-size:24px;font-weight:700;text-align:center;margin:10px 0 4px}
+.lead{font-size:12.5px;color:var(--sub);text-align:center;margin-bottom:20px;line-height:1.6}
+.stage{position:relative;width:min(300px,78vw);aspect-ratio:3/4;margin:0 auto;border-radius:18px;overflow:hidden;border:1px solid var(--line2);background:var(--bg2);touch-action:none;user-select:none;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+.stage img.base{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.stage img.bang{position:absolute;left:-13%;top:3%;width:126%;transform-origin:center;pointer-events:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.25))}
+.empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
+.empty svg{opacity:.5}
+.empty .t{font-size:13px;color:var(--sub);line-height:1.7}
+.pick-btn{display:flex;align-items:center;gap:8px;background:var(--card2);border:1px solid var(--line2);color:var(--ink);font-size:13.5px;font-weight:600;padding:12px 20px;border-radius:12px;cursor:pointer;font-family:inherit}
+.pick-btn.main{background:linear-gradient(135deg,#8E7BF0,#6a56d6);border:none;box-shadow:0 6px 20px rgba(142,123,240,.35)}
+.pick-btn:active{transform:scale(.96)}
+.row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:16px 0 4px}
+.d-btn{background:var(--card);border:1px solid var(--line2);color:var(--sub);font-size:12.5px;font-weight:600;padding:9px 13px;border-radius:11px;cursor:pointer;font-family:inherit;transition:all .18s}
+.d-btn.on{background:rgba(142,123,240,.16);border-color:var(--pp);color:var(--ink)}
+.d-btn:active{transform:scale(.95)}
+.read{text-align:center;margin:10px 0 16px;min-height:36px}
+.read .nm{font-family:'Gowun Batang',serif;font-size:15.5px;font-weight:700}
+.read .m{font-size:11.5px;color:var(--sub);margin-top:3px}
+.ctas{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.cta{background:var(--card2);border:1px solid var(--line2);color:var(--sub);font-size:12.5px;font-weight:600;padding:11px 16px;border-radius:12px;cursor:pointer;font-family:inherit}
+.cta.main{background:linear-gradient(135deg,#8E7BF0,#6a56d6);border:none;color:#fff;box-shadow:0 6px 20px rgba(142,123,240,.3)}
+.cta:active{transform:scale(.96)}
+.note{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:11.5px;color:var(--sub);line-height:1.75}
+.note b{color:var(--ink)}
+.priv{margin-top:12px;text-align:center;font-size:10.5px;color:var(--sub2);line-height:1.6}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#232330;color:var(--ink);font-size:12.5px;padding:11px 20px;border-radius:12px;border:1px solid var(--line2);transition:transform .3s;z-index:50;white-space:nowrap}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.scan{position:absolute;inset:0;pointer-events:none;z-index:6;overflow:hidden;animation:scanFade .5s 2.1s forwards}
+.scan i{position:absolute;left:0;right:0;height:48px;top:-24%;
+ background:linear-gradient(180deg,transparent,rgba(142,123,240,.16) 36%,rgba(255,255,255,.8) 50%,rgba(142,123,240,.16) 64%,transparent);
+ box-shadow:0 0 26px rgba(142,123,240,.4);animation:scanSweep 2.1s cubic-bezier(.45,0,.55,1) 1}
+.scan span{position:absolute;left:50%;bottom:7%;transform:translateX(-50%);font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.9);text-shadow:0 1px 6px rgba(0,0,0,.7)}
+@keyframes scanSweep{0%{top:-24%}55%{top:102%}100%{top:-24%}}
+@keyframes scanFade{to{opacity:0}}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="wrap">
+  <div class="brand">HAIR PREVIEW</div>
+  <h1>앞머리, 미리 얹어보기</h1>
+  <div class="lead">자르기 전에 내 얼굴로 먼저 확인하세요.<br>사진을 넣고 마음에 드는 디자인을 골라보세요 💜</div>
+
+  <div class="stage" id="stage">
+    <img class="base" id="base" style="display:none" draggable="false">
+    <img class="bang" id="bang" style="display:none" draggable="false">
+    <div class="empty" id="empty">
+      <svg width="90" height="120" viewBox="0 0 90 120"><ellipse cx="45" cy="58" rx="32" ry="44" fill="none" stroke="#8E7BF0" stroke-width="1.5" stroke-dasharray="5 5"/><line x1="45" y1="10" x2="45" y2="108" stroke="#8E7BF0" stroke-width="1" stroke-dasharray="3 5" opacity=".5"/></svg>
+      <div class="t">얼굴이 화면에 꽉 차게<br>정면 사진이 제일 잘 어울려요</div>
+      <button class="pick-btn main" onclick="doCam()">📷 셀카 찍기</button>
+      <button class="pick-btn" onclick="doGal()">🖼 앨범에서 고르기</button>
+    </div>
+  </div>
+
+  <div class="row" id="row" style="display:none"></div>
+  <div class="read" id="read" style="display:none">
+    <div class="nm" id="nm">디자인을 골라보세요</div>
+    <div class="m" id="m">한 손가락 이동 · 두 손가락 크기 조절</div>
+  </div>
+  <div class="ctas" id="ctas" style="display:none">
+    <button class="cta" onclick="doCam()">📷 다시 찍기</button>
+    <button class="cta" onclick="clearBang()">빼기</button>
+    <button class="cta main" onclick="savePng()">💾 이미지로 저장</button>
+  </div>
+
+  <div class="note"><b>마음에 드는 컷이 나왔다면?</b><br>이미지로 저장해서 상담 때 보여주세요. 말보다 사진 한 장이 훨씬 정확해요 ✂️</div>
+  <div class="priv">🔒 사진은 이 화면 안에서만 사용돼요 · 어디에도 저장·전송되지 않아요</div>
+</div>
+
+<input type="file" id="cam" accept="image/*" capture="user" style="display:none" onchange="gotPhoto(this)">
+<input type="file" id="gal" accept="image/*" style="display:none" onchange="gotPhoto(this)">
+<div class="toast" id="toast"></div>
+
+<script>
+const BANGS=[
+  {n:'소프트 풀뱅',src:'이미지/앞머리/bang-1.png',m:'이마가 살짝 비치는 부드러운 커버',d:{x:0,y:-6,s:1}},
+  {n:'히메 풀뱅',src:'이미지/앞머리/bang-2.png',m:'도톰한 일자 커버 — 얼굴이 짧아 보여요',d:{x:0,y:-8,s:1.07}},
+  {n:'사이드뱅',src:'이미지/앞머리/bang-3.png',m:'옆으로 흘려 얼굴 옆을 감싸요',d:{x:0,y:0,s:1}},
+  {n:'시스루뱅',src:'이미지/앞머리/bang-4.png',m:'이마가 살짝 비치는 가벼운 커버',d:{x:0,y:-2,s:1.07}}
+];
+let photo=null,idx=-1,T={x:0,y:0,s:1};
+BANGS.forEach(b=>{const im=new Image();im.src=b.src;});
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),2200);}
+function doCam(){document.getElementById('cam').click();}
+function doGal(){document.getElementById('gal').click();}
+
+function gotPhoto(input){
+  const f=input.files&&input.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=function(e){
+    const im=new Image();
+    im.onload=function(){
+      /* 리사이즈(최대 900px) — 폰 사진 원본은 무거워서 */
+      const max=900,r=Math.min(1,max/Math.max(im.width,im.height));
+      const cv=document.createElement('canvas');cv.width=Math.round(im.width*r);cv.height=Math.round(im.height*r);
+      cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);
+      photo=cv.toDataURL('image/jpeg',0.85);
+      render();
+      if(idx<0)setBang(0); /* 사진 넣자마자 1번 디자인 바로 얹어서 재미 선공급 */
+      playScan();
+    };
+    im.src=e.target.result;
+  };
+  rd.readAsDataURL(f);
+  input.value='';
+}
+
+function render(){
+  const has=!!photo;
+  document.getElementById('empty').style.display=has?'none':'';
+  const base=document.getElementById('base');
+  base.style.display=has?'':'none';if(has)base.src=photo;
+  document.getElementById('row').style.display=has?'':'none';
+  document.getElementById('read').style.display=has?'':'none';
+  document.getElementById('ctas').style.display=has?'':'none';
+  document.getElementById('row').innerHTML=BANGS.map((b,i)=>
+    '<button class="d-btn'+(i===idx?' on':'')+'" onclick="setBang('+i+')">'+(i+1)+'. '+b.n+'</button>').join('');
+  const bang=document.getElementById('bang');
+  if(idx>=0&&has){
+    bang.src=BANGS[idx].src;bang.style.display='';
+    bang.style.transform='translate('+T.x+'px,'+T.y+'px) scale('+T.s+')';
+    document.getElementById('nm').textContent=BANGS[idx].n;
+    document.getElementById('m').textContent=BANGS[idx].m;
+  }else{
+    bang.style.display='none';
+    document.getElementById('nm').textContent='디자인을 골라보세요';
+    document.getElementById('m').textContent='한 손가락 이동 · 두 손가락 크기 조절';
+  }
+}
+function setBang(i){idx=i;const d=BANGS[i].d;T={x:d.x,y:d.y,s:d.s};render();}
+/* 사진 들어오면 자동 스캔 모션 — 진단받는 느낌 */
+function playScan(){
+  const st=document.getElementById('stage');
+  const old=st.querySelector('.scan');if(old)old.remove();
+  const sc=document.createElement('div');sc.className='scan';
+  sc.innerHTML='<i></i><span>SCANNING…</span>';
+  st.appendChild(sc);
+  setTimeout(()=>sc.remove(),2800);
+}
+function clearBang(){idx=-1;render();}
+
+/* 인스타식 제스처: 한 손가락 이동 · 두 손가락 핀치 · 데스크톱 휠 */
+(function(){
+  const st=document.getElementById('stage'),pts=new Map();
+  let pinchDist=0,startScale=1,dragId=null,dsx=0,dsy=0,ox=0,oy=0;
+  function apply(){const b=document.getElementById('bang');if(b)b.style.transform='translate('+T.x+'px,'+T.y+'px) scale('+T.s+')';}
+  st.addEventListener('pointerdown',e=>{
+    if(idx<0||!photo)return;
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    try{st.setPointerCapture(e.pointerId);}catch(_){}
+    if(pts.size===1){dragId=e.pointerId;dsx=e.clientX;dsy=e.clientY;ox=T.x;oy=T.y;}
+    else if(pts.size===2){
+      const a=[...pts.values()];pinchDist=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);startScale=T.s;dragId=null;
+    }
+  });
+  st.addEventListener('pointermove',e=>{
+    if(!pts.has(e.pointerId))return;
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pts.size===2){
+      const a=[...pts.values()];const d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);
+      if(pinchDist>0){T.s=Math.min(2.2,Math.max(.4,startScale*d/pinchDist));apply();}
+    }else if(e.pointerId===dragId){
+      T.x=ox+(e.clientX-dsx);T.y=oy+(e.clientY-dsy);apply();
+    }
+  });
+  function up(e){pts.delete(e.pointerId);if(pts.size<2)pinchDist=0;if(e.pointerId===dragId)dragId=null;}
+  st.addEventListener('pointerup',up);st.addEventListener('pointercancel',up);
+  st.addEventListener('wheel',e=>{
+    if(idx<0||!photo)return;e.preventDefault();
+    T.s=Math.min(2.2,Math.max(.4,T.s*(e.deltaY<0?1.06:0.94)));apply();
+  },{passive:false});
+})();
+
+/* 저장: 화면과 동일 지오메트리로 캔버스 합성 → PNG 다운로드 */
+function savePng(){
+  if(!photo){toast('사진을 먼저 넣어주세요');return;}
+  const stW=document.getElementById('stage').getBoundingClientRect().width;
+  const CW=750,CH=1000,k=CW/stW;
+  const cv=document.createElement('canvas');cv.width=CW;cv.height=CH;
+  const g=cv.getContext('2d');
+  const ph=new Image();
+  ph.onload=function(){
+    /* object-fit:cover */
+    const s=Math.max(CW/ph.width,CH/ph.height);
+    const w=ph.width*s,h=ph.height*s;
+    g.drawImage(ph,(CW-w)/2,(CH-h)/2,w,h);
+    function fin(){
+      const a=document.createElement('a');
+      a.download='앞머리_미리보기.png';a.href=cv.toDataURL('image/png');a.click();
+      toast('저장했어요! 갤러리를 확인하세요 💜');
+    }
+    if(idx>=0){
+      const bg=new Image();
+      bg.onload=function(){
+        /* css: left -13%, top 3%, width 126% + translate/scale(origin center) */
+        const bw=CW*1.26,bh=bw*bg.height/bg.width;
+        let bx=-CW*0.13,by=CH*0.03;
+        const sw=bw*T.s,sh=bh*T.s;
+        bx=bx-(sw-bw)/2+T.x*k;by=by-(sh-bh)/2+T.y*k;
+        g.drawImage(bg,bx,by,sw,sh);fin();
+      };
+      bg.src=BANGS[idx].src;
+    }else fin();
+  };
+  ph.src=photo;
+}
+</script>
+</body>
+</html>
