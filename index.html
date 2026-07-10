@@ -141,6 +141,13 @@ body{
 .c1-cta:active{transform:scale(.99)}
 .c1-cta span{opacity:.5;transition:transform .3s}
 .c1-cta:hover span{transform:translateX(4px);opacity:1}
+/* 첫 페이지 하단 로그인 */
+.c1-auth{display:flex;flex-direction:column;gap:9px}
+.c1-login{display:flex;flex-direction:column;gap:9px}
+.c1-inp{width:100%;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);border-radius:13px;padding:14px 15px;font-family:inherit;font-size:14px;color:#fff;outline:none;transition:border-color .2s,background .2s;text-align:center;letter-spacing:.02em}
+.c1-inp::placeholder{color:rgba(255,255,255,.4);letter-spacing:0}
+.c1-inp:focus{border-color:var(--c-purple);background:rgba(142,123,240,.12)}
+.c1-msg{font-size:12px;text-align:center;min-height:15px;color:#FF6B6E}
 
 /* ============ 상단 진행바 (챕터3) ============ */
 .topbar{position:sticky;top:0;z-index:50;background:rgba(12,12,15,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:14px 20px 12px}
@@ -1319,20 +1326,7 @@ body.secret-locked .mode-toggle{display:none}
 </head>
 <body>
 
-<!-- ============ 로그인 (메인 지나서 진입 시) ============ -->
-<div id="loginView" class="hide">
-  <div class="lg-mark">💇</div>
-  <div class="lg-title serif">고객 파트너</div>
-  <div class="lg-sub">HAIR CRM STUDIO</div>
-  <div class="lg-form">
-    <input id="lgId" placeholder="아이디 (코드)" autocomplete="off" autocapitalize="characters" onkeydown="if(event.key==='Enter')document.getElementById('lgPw').focus()">
-    <input id="lgPw" type="password" inputmode="numeric" placeholder="비밀번호" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="lg-btn" id="lgBtn" onclick="doLogin()">로그인</button>
-    <div class="lg-msg" id="lgMsg"></div>
-  </div>
-  <div class="lg-hint">발급받은 아이디·비밀번호로 로그인하세요</div>
-  <button class="lg-back" onclick="closeLogin()">‹ 메인으로</button>
-</div>
+<!-- 로그인은 첫 페이지(chapter1) 하단으로 이동 -->
 
 <!-- ============ 챕터1 메인 표지 ============ -->
 <div id="chapter1">
@@ -1349,7 +1343,7 @@ body.secret-locked .mode-toggle{display:none}
     <div class="c1-rail"><div class="c1-track" id="c1Track"></div></div>
   </div>
   <div class="c1-foot">
-    <button class="c1-cta c2-fade" style="animation-delay:.3s" onclick="enterFromCover()">시작하기 <span>→</span></button>
+    <div id="c1Auth" class="c1-auth c2-fade" style="animation-delay:.3s"></div>
   </div>
 </div>
 
@@ -2279,8 +2273,23 @@ function isLoggedIn(){return !!(hpCode()&&hpToken());}
 function requireLogin(next){
   if(isLoggedIn()){next();return;} /* 이미 로그인 → 바로 진행 */
   _loginNext=next;
-  document.getElementById('loginView').classList.remove('hide');
+  var ch1=document.getElementById('chapter1');if(ch1)ch1.classList.remove('hide'); /* 로그인은 첫 페이지 하단 */
+  renderC1Auth();
   var idEl=document.getElementById('lgId');if(idEl)setTimeout(function(){idEl.focus();},120);
+}
+/* 첫 페이지 하단: 로그인 폼(로그아웃 상태) 또는 시작하기(로그인 상태) */
+function renderC1Auth(){
+  var el=document.getElementById('c1Auth');if(!el)return;
+  if(isLoggedIn()){
+    el.innerHTML='<button class="c1-cta" onclick="enterFromCover()">시작하기 <span>&rarr;</span></button>';
+  }else{
+    el.innerHTML='<div class="c1-login">'
+      +'<input id="lgId" class="c1-inp" placeholder="아이디 (코드)" autocomplete="off" autocapitalize="characters" onkeydown="if(event.key===\'Enter\')document.getElementById(\'lgPw\').focus()">'
+      +'<input id="lgPw" class="c1-inp" type="password" inputmode="numeric" placeholder="비밀번호" onkeydown="if(event.key===\'Enter\')doLogin()">'
+      +'<button class="c1-cta" id="lgBtn" onclick="doLogin()">로그인</button>'
+      +'<div class="c1-msg" id="lgMsg"></div>'
+      +'</div>';
+  }
 }
 async function doLogin(){
   var id=(document.getElementById('lgId').value||'').trim().toUpperCase();
@@ -2308,7 +2317,6 @@ async function doLogin(){
     var pwEl=document.getElementById('lgPw');if(pwEl){pwEl.value='';pwEl.focus();}
   }
 }
-function closeLogin(){document.getElementById('loginView').classList.add('hide');_loginNext=null;}
 function logout(){
   if(!confirm('로그아웃 할까요?\n(데이터는 서버에 안전하게 저장돼 있어요. 다시 로그인하면 그대로 이어져요)'))return;
   try{localStorage.removeItem(LOGIN_KEY);localStorage.removeItem(HP_TOKEN_KEY);}catch(e){}
@@ -4505,7 +4513,7 @@ function svSubmit(){
 }
 
 loadCustomers();purgeOldCustomers();loadLookbook();loadProducts();loadEvents();loadPromos();loadMini();loadMenuBook();initCal();initLbx();preloadFaceImgs();lockSecret();rtSync();
-buildTicker();buildGallery();buildMenus();renderStep();initBASlider();renderCustomers();renderCal();initEngine();buildCover();buildC2Scan();
+buildTicker();buildGallery();buildMenus();renderStep();initBASlider();renderCustomers();renderCal();initEngine();buildCover();buildC2Scan();renderC1Auth();
 /* 로그인 상태면 서버와 동기화 (부팅) */
 (async function hpBoot(){
   if(!isLoggedIn())return;
