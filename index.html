@@ -731,6 +731,54 @@ body.secret-locked .mode-toggle{display:none}
 .co-setgoal{display:block;width:100%;margin-top:11px;border:none;border-radius:11px;padding:11px;background:linear-gradient(135deg,#8E7BF0,#D46FA8);color:#fff;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
 .co-goal-on{margin-top:11px;background:rgba(123,224,184,.08);border:1px solid rgba(123,224,184,.35);border-radius:11px;padding:11px 12px;font-size:12px;color:#9FE8C8;display:flex;align-items:center;gap:8px}
 .co-goal-on b{color:#fff}
+/* ═══ 3택 제안 (앵커링 + 선택 설계) ═══ */
+#offer3{margin:4px 0 8px}
+.of3-tier{border:1px solid var(--line2);border-radius:15px;padding:13px 14px;margin-bottom:9px;position:relative;background:rgba(255,255,255,.03)}
+.of3-tier.rec{border-color:rgba(212,111,168,.55);background:linear-gradient(160deg,rgba(212,111,168,.12),rgba(142,123,240,.06));box-shadow:0 8px 26px rgba(212,111,168,.18)}
+.of3-tier.anchor{opacity:.82}
+.of3-badge{position:absolute;top:-9px;left:14px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;background:linear-gradient(90deg,#D46FA8,#FF9EC2);color:#fff;box-shadow:0 4px 12px rgba(212,111,168,.4)}
+.of3-top{display:flex;align-items:baseline;gap:8px}
+.of3-nm{font-family:'Gowun Batang',serif;font-size:15px;font-weight:700}
+.of3-tier.rec .of3-nm{color:#FFD3E4}
+.of3-price{margin-left:auto;font-family:'Gowun Batang',serif;font-size:17px;font-weight:700}
+.of3-price small{font-size:11px;color:var(--sub);font-weight:400}
+.of3-items{font-size:11.5px;color:var(--sub);margin-top:6px;line-height:1.5}
+.of3-tier.rec .of3-items{color:var(--ink)}
+.of3-note{font-size:10.5px;color:var(--sub2);line-height:1.7;margin-top:6px;padding:10px 12px;border:1px dashed var(--line2);border-radius:11px}
+.of3-note b{color:#FFD3E4}
+/* ═══ 음성 상담 수집 ═══ */
+#voiceOv{position:fixed;inset:0;z-index:360;background:rgba(6,5,12,.72);backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center}
+#voiceOv.on{display:flex}
+.vo-card{width:100%;max-width:480px;background:linear-gradient(180deg,#1a1730,#141122);border:1px solid var(--line2);border-top-left-radius:24px;border-top-right-radius:24px;padding:18px 16px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -20px 60px rgba(0,0,0,.5);max-height:92vh;overflow-y:auto}
+.vo-top{display:flex;align-items:center;margin-bottom:6px}
+.vo-t{font-family:'Gowun Batang',serif;font-size:17px;font-weight:700}
+.vo-x{margin-left:auto;background:rgba(255,255,255,.06);border:1px solid var(--line2);color:var(--sub);width:30px;height:30px;border-radius:9px;cursor:pointer;font-size:13px}
+.vo-status{font-size:11.5px;color:var(--sub);line-height:1.6;margin-bottom:12px}
+.vo-mic{width:100%;border:none;border-radius:14px;padding:15px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#8E7BF0,#D46FA8);color:#fff;box-shadow:0 8px 24px rgba(142,123,240,.35)}
+.vo-mic.rec{background:linear-gradient(135deg,#E5484D,#D46FA8);animation:voPulse 1.3s ease-in-out infinite}
+@keyframes voPulse{50%{box-shadow:0 0 26px rgba(229,72,77,.5)}}
+.vo-lab{font-size:11px;color:var(--sub2);letter-spacing:.06em;margin:16px 0 7px;font-weight:600}
+.vo-text{width:100%;min-height:88px;background:rgba(255,255,255,.05);border:1px solid var(--line2);border-radius:13px;color:var(--ink);padding:12px 13px;font-family:inherit;font-size:13px;line-height:1.6;resize:vertical;outline:none}
+.vo-text:focus{border-color:rgba(158,123,255,.5)}
+.vo-tags{display:flex;flex-direction:column;gap:8px;min-height:20px}
+.vo-tg{background:rgba(255,255,255,.04);border:1px solid var(--line2);border-radius:12px;padding:9px 11px}
+.vo-tg .th{font-size:11px;font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:6px}
+.vo-tg .tw{display:flex;flex-wrap:wrap;gap:5px}
+.vo-tg .w{font-size:11.5px;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line2);color:var(--ink)}
+.vo-tg.situ .th{color:#8FE3C8}.vo-tg.pain .th{color:#FF9EC2}.vo-tg.want .th{color:#FFD98A}.vo-tg.fear .th{color:#C9B9FF}.vo-tg.tried .th{color:#9BB8FF}
+.vo-empty{font-size:11.5px;color:var(--sub2);padding:6px 2px}
+.vo-actions{margin-top:14px}
+.vo-save{width:100%;border:none;border-radius:13px;padding:14px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#8E7BF0,#6a56d6);color:#fff}
+.vo-note{font-size:10px;color:var(--sub2);text-align:center;margin-top:12px;line-height:1.6}
+/* 상담 배너 음성 버튼 */
+.cc-voice{display:block;width:100%;margin-top:10px;border:1px solid rgba(255,158,194,.4);background:rgba(255,158,194,.08);color:#FFD3E4;border-radius:11px;padding:10px;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+.cd-innote{margin-top:8px}
+.cd-innote .vi{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:11px;padding:10px 12px;margin-bottom:7px}
+.cd-innote .vi .vd{font-size:10.5px;color:var(--sub2);margin-bottom:5px}
+.cd-innote .vi .vtxt{font-size:12px;color:var(--ink);line-height:1.55;margin-bottom:7px}
+.cd-innote .vi .vwrap{display:flex;flex-wrap:wrap;gap:5px}
+.cd-innote .vi .vc{font-size:11px;padding:3px 9px;border-radius:999px;border:1px solid var(--line2);color:var(--sub)}
+.cd-innote .vi .vx{float:right;color:var(--sub2);cursor:pointer;font-size:12px;margin-top:-2px}
 /* ═══ 성장 엔진 허브 (3엔진 재배치) ═══ */
 #engineHub{margin-top:20px}
 .eh-h{font-size:15px;font-weight:600;margin:0 0 12px;display:flex;align-items:baseline;gap:6px}
@@ -748,6 +796,7 @@ body.secret-locked .mode-toggle{display:none}
 .eh-tool:hover{border-color:var(--ec);color:#fff}
 .eh-tool.hero{background:linear-gradient(135deg,rgba(142,123,240,.18),rgba(212,111,168,.1));border-color:var(--ec)}
 .eh-arsenal{font-size:9.5px;color:var(--sub2);margin-top:9px;letter-spacing:.03em}
+.eh-extra{font-size:11.5px;color:var(--sub);margin-top:9px;padding:9px 11px;background:rgba(255,158,194,.07);border:1px solid rgba(255,158,194,.22);border-radius:10px}
 .ws-h small{font-weight:400;color:var(--sub);font-size:12px;margin-left:6px}
 .ws-soon{text-align:center;color:var(--sub2);padding:44px 20px;font-size:13.5px;line-height:1.7;border:1px dashed var(--line2);border-radius:16px;margin-top:8px}
 .ws-soon .si{font-size:34px;display:block;margin-bottom:12px;opacity:.6}
@@ -1953,6 +2002,8 @@ body.secret-locked .mode-toggle{display:none}
   </div>
   <button class="pop-btn" onclick="openMenuPick()">＋ 전체 메뉴에서 추가 <span style="color:var(--sub);font-weight:400">(염색·펌·매직 등)</span></button>
   <button class="pop-btn" onclick="openPop()">📋 미니메뉴 POP 보여주기</button>
+  <button class="pop-btn" onclick="toggleOffer3()">💡 3택으로 제안하기 <span style="color:var(--sub);font-weight:400">(부담↓ · 선택 유도)</span></button>
+  <div id="offer3" style="display:none"></div>
   <button class="pop-btn dz-only" onclick="openTalk()">💬 멘트 도우미 <span style="color:var(--sub);font-weight:400">(디자이너 전용)</span></button>
   <div id="s2Events"></div>
   <div class="dz-note"><b>미니메뉴 POP</b> — 페이스라인펌·뿌리펌·스케일링컷처럼 금액이 크지 않은 메뉴를 먼저 제안해 심리적 부담을 낮추세요. 위 버튼으로 고객에게 크게 보여주세요.</div>
@@ -2005,6 +2056,23 @@ body.secret-locked .mode-toggle{display:none}
   </div>
   <input type="file" id="camShot" accept="image/*" capture="environment" style="display:none" onchange="capturePhoto(this)">
   <input type="file" id="camPick" accept="image/*" multiple style="display:none" onchange="capturePhoto(this)">
+</div>
+
+<!-- 🎙 음성 상담 → 속마음 수집 -->
+<div id="voiceOv">
+  <div class="vo-card">
+    <div class="vo-top"><div class="vo-t">🎙 음성으로 속마음 담기</div><button class="vo-x" onclick="sttClose()">✕</button></div>
+    <div class="vo-status" id="voStatus">마이크를 켜고 상담하면, 말이 자동으로 글이 되고 핵심이 분류돼요.</div>
+    <button class="vo-mic" id="voMic" onclick="sttToggle()"><span id="voMicIco">🎙</span> <span id="voMicTx">듣기 시작</span></button>
+    <div class="vo-lab">받아적은 상담 <span style="font-weight:400;color:var(--sub2)">— 정지 후 여기서 수정·정리하고 저장하세요</span></div>
+    <textarea id="voText" class="vo-text" placeholder="여기에 상담이 실시간으로 적혀요 (직접 입력·수정도 가능)" oninput="sttRetag()"></textarea>
+    <div class="vo-lab">자동으로 캐낸 속마음</div>
+    <div id="voTags" class="vo-tags"></div>
+    <div class="vo-actions">
+      <button class="vo-save" onclick="sttSave()">💾 이 고객 기록에 저장</button>
+    </div>
+    <div class="vo-note">전부 기기 안에서 처리돼요 · 녹음 파일은 저장하지 않아요 · 비용 0원</div>
+  </div>
 </div>
 
 <div class="sheet-bg" id="sheetBg" onclick="closeSheet()"></div>
@@ -4917,9 +4985,90 @@ function renderConsultCust(c){
       h+=`<div class="cc-hist-more" onclick="toggleCcHist(this)">전체 이력 ${c.history.length}회 ▾</div><div class="cc-histbox" style="display:none">`+c.history.map(x=>`<div class="cc-h-item"><b>${fmtAppt(x.date)}</b> · ${x.items.join(' · ')} · ${(x.total||0).toLocaleString()}원</div>`).join('')+`</div>`;
     }
   }
+  if(c.voiceNotes&&c.voiceNotes.length){
+    var v=c.voiceNotes[0],cats={situ:'📍',pain:'😣',want:'✨',fear:'😨',tried:'🔁'};
+    var chips=Object.keys(v.tags||{}).map(function(k){return (cats[k]||'')+' '+(v.tags[k]||[]).join(', ');}).join(' · ');
+    if(chips)h+=`<div class="cc-hist-line">🎙 지난 속마음 · ${chips}</div>`;
+  }
+  h+=`<button class="cc-voice" onclick="sttOpen()">🎙 음성으로 속마음 담기</button>`;
   h+=`</div>`;el.innerHTML=h;el.style.display='block';
 }
 function toggleCcHist(el){var box=el.nextElementSibling;if(!box)return;var show=box.style.display==='none';box.style.display=show?'block':'none';el.textContent=el.textContent.replace(/[▾▴]/,show?'▴':'▾');}
+/* ═══ 🎙 음성 상담 → 속마음 자동 수집 (Web Speech · 무료 온디바이스) ═══ */
+var VO_REC=null,VO_ON=false,VO_BASE='';
+var VO_CATS=[
+ {key:'situ',cls:'situ',ic:'📍',name:'상황',words:['결혼','웨딩','면접','소개팅','행사','졸업','입학','출근','여름','겨울','휴가','기념일','촬영','발표','모임','새 학기','이직']},
+ {key:'pain',cls:'pain',ic:'😣',name:'고통·불편',words:['답답','신경 쓰','거슬','상하','갈라','푸석','빠져','눌려','납작','떠 있','들뜨','지저분','관리 안','안 살아','힘들','금방 풀','비어 보','넓어 보','커 보','안 어울','촌스']},
+ {key:'want',cls:'want',ic:'✨',name:'욕망',words:['하고 싶','되고 싶','예뻐','어려 보','동안','자신감','시원','볼륨','화사','청순','세련','또렷','갸름','부드럽','자연스','트렌디','분위기']},
+ {key:'fear',cls:'fear',ic:'😨',name:'두려움',words:['걱정','부담','실패','이상해','손상','후회','망칠','너무 짧','튈까','안 어울릴','과할까','티 날']},
+ {key:'tried',cls:'tried',ic:'🔁',name:'시도한 것',words:['해봤','발라','드라이','매직','펌했','염색했','잘라봤','길러','바꿔봤','제품 써','열심히','유튜브 보고']}
+];
+function sttOpen(){
+  document.getElementById('voiceOv').classList.add('on');
+  document.getElementById('voText').value='';document.getElementById('voTags').innerHTML='<div class="vo-empty">아직 없어요 — 듣기 시작하거나 직접 적어보세요.</div>';
+  var st=document.getElementById('voStatus');
+  if(!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)){
+    st.innerHTML='이 브라우저는 음성 인식을 지원하지 않아요 — <b style="color:#FFD3E4">직접 입력</b>으로 담을 수 있어요.';
+    document.getElementById('voMic').style.display='none';
+  }else{st.textContent='마이크를 켜고 상담하면, 말이 자동으로 글이 되고 핵심이 분류돼요.';document.getElementById('voMic').style.display='';}
+}
+function sttClose(){sttStop();document.getElementById('voiceOv').classList.remove('on');}
+function sttToggle(){if(VO_ON)sttStop();else sttStart();}
+function sttStart(){
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;
+  try{VO_REC=new SR();}catch(e){return;}
+  VO_REC.lang='ko-KR';VO_REC.continuous=true;VO_REC.interimResults=true;
+  VO_BASE=document.getElementById('voText').value;
+  VO_REC.onresult=function(ev){
+    var fin='',interim='';
+    for(var i=ev.resultIndex;i<ev.results.length;i++){var r=ev.results[i];if(r.isFinal)fin+=r[0].transcript;else interim+=r[0].transcript;}
+    if(fin)VO_BASE=(VO_BASE?VO_BASE+' ':'')+fin.trim();
+    document.getElementById('voText').value=VO_BASE+(interim?' '+interim:'');
+    sttRetag();
+  };
+  VO_REC.onerror=function(){sttStop();};
+  VO_REC.onend=function(){if(VO_ON){try{VO_REC.start();}catch(e){}}}; /* 끊기면 자동 재시작 */
+  try{VO_REC.start();VO_ON=true;}catch(e){return;}
+  var b=document.getElementById('voMic');b.classList.add('rec');
+  document.getElementById('voMicIco').textContent='⏸';document.getElementById('voMicTx').textContent='듣는 중 · 정지';
+  document.getElementById('voStatus').innerHTML='<b style="color:#FF9EC2">● 듣는 중</b> — 자연스럽게 상담하세요.';
+}
+function sttStop(){
+  VO_ON=false;if(VO_REC){try{VO_REC.onend=null;VO_REC.stop();}catch(e){}VO_REC=null;}
+  var b=document.getElementById('voMic');if(b){b.classList.remove('rec');}
+  var ico=document.getElementById('voMicIco'),tx=document.getElementById('voMicTx');if(ico)ico.textContent='🎙';if(tx)tx.textContent='다시 듣기';
+}
+function sttExtract(text){
+  var out={};VO_CATS.forEach(function(c){var found=[];c.words.forEach(function(w){if(text.indexOf(w)>=0)found.push(w);});if(found.length)out[c.key]=found;});
+  return out;
+}
+function sttRetag(){
+  var text=document.getElementById('voText').value||'';
+  var tags=sttExtract(text),box=document.getElementById('voTags'),html='';
+  VO_CATS.forEach(function(c){
+    if(!tags[c.key])return;
+    html+='<div class="vo-tg '+c.cls+'"><div class="th">'+c.ic+' '+c.name+'</div><div class="tw">'+tags[c.key].map(function(w){return '<span class="w">'+w+'</span>';}).join('')+'</div></div>';
+  });
+  box.innerHTML=html||'<div class="vo-empty">아직 감지된 속마음이 없어요 — 상담이 쌓이면 나타나요.</div>';
+  window.__voTags=tags;
+}
+function sttNoteDel(id,i){var c=CUSTOMERS.find(function(x){return x.id===id;});if(!c||!c.voiceNotes)return;c.voiceNotes.splice(i,1);saveCustomers();if(typeof openCustDetail==='function')openCustDetail(id);}
+function sttSave(){
+  var text=(document.getElementById('voText').value||'').trim();
+  if(!text){toast('먼저 상담 내용을 담아주세요');return;}
+  var tags=sttExtract(text);
+  if(typeof _consultCust!=='undefined'&&_consultCust){
+    _consultCust.voiceNotes=_consultCust.voiceNotes||[];
+    _consultCust.voiceNotes.unshift({date:todayYMD(),text:text,tags:tags});
+    if(_consultCust.voiceNotes.length>20)_consultCust.voiceNotes.length=20;
+    saveCustomers();
+    sttStop();document.getElementById('voiceOv').classList.remove('on');
+    toast('🎙 '+_consultCust.name+'님 속마음이 저장됐어요');
+    if(typeof renderConsultCust==='function')renderConsultCust(_consultCust);
+  }else{
+    toast('고객 카드에서 상담을 시작하면 그 고객에게 저장돼요');
+  }
+}
 function launchConsult(cust){
   lockSecret(); /* 무대 진입 = 분장실 자동 잠금 */
   _consultCust=cust||null;
@@ -5323,6 +5472,30 @@ function renderQuote(){
   _prevTotal=total;
 }
 
+/* 3택 제안: 실속 / 추천(★사회적증거) / 프리미엄(앵커) */
+function toggleOffer3(){var b=document.getElementById('offer3');if(!b)return;var show=b.style.display==='none';b.style.display=show?'block':'none';if(show)renderOffer3();}
+function renderOffer3(){
+  var b=document.getElementById('offer3');if(!b)return;
+  var sel=(S.menus||[]).slice();
+  if(!sel.length){b.innerHTML='<div class="quote-empty">먼저 시술을 골라주세요 — 그걸 기준으로 3택을 만들어드려요</div>';return;}
+  var recTotal=sel.reduce(function(a,m){return a+m.price;},0);
+  var baseItem=sel.find(function(m){return m.name===CUT_BASE.name;})||{name:CUT_BASE.name,price:CUT_BASE.price};
+  var lightTotal=baseItem.price;
+  var premAdd={name:'프리미엄 헤어 클리닉',price:50000};
+  var premTotal=recTotal+premAdd.price;
+  function won(n){return (n).toLocaleString()+'원';}
+  var tiers=[
+    {cls:'anchor',nm:'프리미엄',price:premTotal,items:sel.map(function(m){return m.name;}).concat([premAdd.name]).join(' · '),badge:''},
+    {cls:'rec',nm:'추천',price:recTotal,items:sel.map(function(m){return m.name;}).join(' · '),badge:'★ 가장 많이 선택'},
+    {cls:'',nm:'실속',price:lightTotal,items:baseItem.name,badge:''}
+  ];
+  b.innerHTML=tiers.map(function(t){
+    return '<div class="of3-tier '+t.cls+'">'+(t.badge?'<span class="of3-badge">'+t.badge+'</span>':'')
+      +'<div class="of3-top"><span class="of3-nm">'+t.nm+'</span><span class="of3-price">'+won(t.price)+'</span></div>'
+      +'<div class="of3-items">'+t.items+'</div></div>';
+  }).join('')
+  +'<div class="of3-note dz-only"><b>왜 이렇게 보여주나요?</b><br>· 프리미엄을 먼저 보여주면 <b>추천이 합리적</b>으로 보여요(앵커링)<br>· "★ 가장 많이 선택"은 <b>사회적 증거</b> — 대부분 가운데를 골라요<br>· 3개면 고르기 쉬워 <b>결정을 미루지 않아요</b>(선택 설계)</div>';
+}
 function pickPromo(el){document.querySelectorAll('.promo').forEach(p=>p.classList.remove('sel'));el.classList.add('sel');S.promo=el.dataset.promo;S.promoPrice=+el.dataset.price;}
 function setFreq(){
   const map={긴형:['4주','한 달이면 앞머리·비율이 무너져 얼굴이 다시 길어 보여요.'],둥근형:['4주','볼륨과 옆라인이 풀리면 얼굴이 커 보여요.'],각진형:['5주','웨이브 컬이 부드럽게 남는 5주 주기 추천.'],하트형:['4주','하단 볼륨이 유지되는 4주가 예뻐요.'],계란형:['4~5주','컷 라인이 살아있는 4~5주 주기 권장.']};
@@ -6017,8 +6190,10 @@ function growthMetrics(){
     var newN=CUSTOMERS.filter(function(c){var h=c.history||[];return h.length&&(h[h.length-1].date||'').slice(0,7)===ymk;}).length;
     return {ym:ymk,rev:rev,cnt:cnt,custN:custN,avg:cnt?rev/cnt:0,freq:custN?cnt/custN:0,newN:newN,typeN:Object.keys(types).length,days:Object.keys(days).length};
   }
-  function pctd(a,b){return b>0?Math.round((a-b)/b*100):(a>0?100:0);}
-  function idx(c,p){return Math.max(0,Math.min(99,Math.round(50+(pctd(c.rev,p.rev)+pctd(c.custN,p.custN)+pctd(c.freq,p.freq))/3*0.5)));}
+  function pctd(a,b){return b>0?Math.round((a-b)/b*100):(a>0?60:0);}
+  function cap(x){return Math.max(-60,Math.min(60,x));}
+  /* 노이즈 방지: 각 레버 변화율 ±60% 캡, 기준 55(살짝 긍정)·계수 .55 → 대략 22~88 안정범위 */
+  function idx(c,p){var d=(cap(pctd(c.rev,p.rev))+cap(pctd(c.custN,p.custN))+cap(pctd(c.freq,p.freq)))/3;return Math.max(5,Math.min(95,Math.round(55+d*0.55)));}
   var t=calc(0),l=calc(1),ll=calc(2);
   var score=idx(t,l),scoreLast=idx(l,ll),scoreDelta=score-scoreLast;
   var levers=[
@@ -6060,6 +6235,8 @@ function renderGrowth(){
   }).join('');
   var sd=g.scoreDelta,sdTxt=sd>0?'<span class="gd-up">▲ 지난달 대비 +'+sd+'</span>':sd<0?'<span class="gd-dn">▼ 지난달 대비 '+sd+'</span>':'<span class="gd-flat">지난달과 같아요</span>';
   var M=GD_MISSION[g.weak.key]||GD_MISSION.freq;
+  /* 방문빈도가 약하면 실제 재방문 예정 인원으로 미션 구체화 */
+  if(g.weak.key==='freq'&&typeof dueCustomers==='function'){var due=dueCustomers().length;if(due)M={mb:due+'명이 재방문할 때가 지났어요<br>안부 한 통씩 보내기',md:'떠나기 전에 붙잡는 게 신규 '+due+'명 만드는 것보다 쉬워요.',go:M.go,act:M.act};}
   var axHtml=g.axes.map(function(a){return '<div class="gd-ax"><div class="ai">'+a.ic+'</div><div class="an">'+a.name+'</div><div class="av">'+a.val+'</div></div>';}).join('');
   box.innerHTML='<div class="gd-card">'
     +'<div class="gd-score"><div class="lab">이달의 성장 점수</div><div class="n">'+g.score+'</div><div class="up">'+sdTxt+'</div></div>'
@@ -6133,6 +6310,21 @@ function coachSetGoal(){
   COACH.weekGoal={wk:weekKey(),key:g.weak.key,name:g.weak.name};saveCoach();renderCoach();
   toast('이번 주 목표를 '+g.weak.name+'(으)로 정했어요 🎯');
 }
+/* ═══ 재방문 예측 — 고객별 평균 주기 넘긴 사람 ═══ */
+function dueCustomers(){
+  var now=new Date(),out=[];
+  CUSTOMERS.forEach(function(c){
+    var h=(c.history||[]).slice().filter(function(x){return x.date;}).sort(function(a,b){return a.date<b.date?1:-1;});
+    if(!h.length)return;
+    var daysSince=Math.floor((now-new Date(h[0].date))/864e5);
+    var interval=42;
+    if(h.length>=2){var s=0,n=0;for(var i=0;i<h.length-1;i++){s+=(new Date(h[i].date)-new Date(h[i+1].date))/864e5;n++;}interval=Math.round(s/n);}
+    if(interval<21)interval=28;if(interval>120)interval=120;
+    if(daysSince>=interval)out.push({c:c,daysSince:daysSince,interval:interval,over:daysSince-interval});
+  });
+  out.sort(function(a,b){return b.over-a.over;});
+  return out;
+}
 /* ═══ 성장 엔진 허브 — 기존 기능을 3엔진 아래로 재배치 ═══ */
 var ENGINES=[
  {key:'inflow',ic:'🧲',name:'유입 엔진',lever:'고객수 ↑',color:'#9B8FE7',
@@ -6145,7 +6337,8 @@ var ENGINES=[
    arsenal:'상담 무기고 = 스타일 처방 · 여백·비율 진단 (한 명이 더 쓰게)'},
  {key:'retention',ic:'🔁',name:'리텐션 엔진',lever:'방문빈도 ↑',color:'#FFD98A',
    metric:function(g){return {v:g.t.freq.toFixed(1),u:'회 방문'};},
-   tools:[{t:'고객 관리',fn:"navTo('customers')",hero:true},{t:'재방문 케어',fn:"navTo('customers');setTimeout(function(){if(typeof openCare==='function')openCare();},250)"},{t:'오늘 마감',fn:'openClosing()'}],
+   extra:function(){var n=dueCustomers().length;return n?'🔔 재방문 예정 <b style="color:#FFD3E4">'+n+'명</b> — 지금 안부 보내면 딱이에요':'';},
+   tools:[{t:'재방문 케어',fn:"navTo('customers');setTimeout(function(){if(typeof openCare==='function')openCare();},250)",hero:true},{t:'고객 관리',fn:"navTo('customers')"},{t:'오늘 마감',fn:'openClosing()'}],
    arsenal:'단골을 다시 오게 하는 곳'}
 ];
 function renderEngines(){
@@ -6155,9 +6348,11 @@ function renderEngines(){
   ENGINES.forEach(function(E){
     var m=E.metric(g);
     var tools=E.tools.map(function(T){return '<button class="eh-tool'+(T.hero?' hero':'')+'" onclick="'+T.fn+'">'+T.t+'</button>';}).join('');
+    var extra=(E.extra?E.extra(g):'');
     html+='<div class="eh-card" style="--ec:'+E.color+'">'
       +'<div class="eh-top"><span class="eh-ic">'+E.ic+'</span><div><div class="eh-nm">'+E.name+'</div><div class="eh-lv">'+E.lever+'</div></div>'
       +'<div class="eh-metric">'+m.v+'<small>'+m.u+'</small></div></div>'
+      +(extra?'<div class="eh-extra">'+extra+'</div>':'')
       +'<div class="eh-tools">'+tools+'</div>'
       +'<div class="eh-arsenal">'+E.arsenal+'</div>'
       +'</div>';
@@ -6569,6 +6764,7 @@ function openCustDetail(id){
         ${recipes}
         ${hist}
         ${shots}
+        ${(c.voiceNotes&&c.voiceNotes.length)?('<div class="cd-sec-t">🎙 속마음 (음성 상담)</div><div class="cd-innote">'+c.voiceNotes.map(function(v,i){var cats={situ:'📍상황',pain:'😣고통',want:'✨욕망',fear:'😨두려움',tried:'🔁시도'};var chips=Object.keys(v.tags||{}).map(function(k){return '<span class="vc">'+(cats[k]||k)+' · '+(v.tags[k]||[]).join(', ')+'</span>';}).join('');return '<div class="vi"><span class="vx" onclick="sttNoteDel(\''+c.id+'\','+i+')">✕</span><div class="vd">'+fmtAppt(v.date)+'</div><div class="vtxt">'+(v.text||'').replace(/</g,'&lt;')+'</div><div class="vwrap">'+chips+'</div></div>';}).join('')+'</div>'):''}
         <div class="cd-sec-t">📝 관리 메모</div>
         ${(c.voice&&c.voice.length)?c.voice.map((v,i)=>`<div class="cd-voice"><span>🎙 ${fmtAppt(v.date)}</span><audio controls preload="none" src="${v.src}"></audio><button onclick="voiceDel('${c.id}',${i})">✕</button></div>`).join(''):''}
         ${logs}
