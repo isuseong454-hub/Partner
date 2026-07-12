@@ -1,5 +1,5 @@
-/* 고객 파트너 · 서비스 워커 (오프라인 캐시 + 업데이트 즉시 반영) */
-const CACHE = 'customer-partner-v6';
+/* 스타일 파트너 · 서비스 워커 (오프라인 캐시 + 업데이트 즉시 반영) */
+const CACHE = 'customer-partner-v13';
 const CORE = [
   './',
   './index.html',
