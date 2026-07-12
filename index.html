@@ -522,7 +522,7 @@ body.secret-locked .mode-toggle{display:none}
 .pin-close{margin-top:14px;background:none;border:none;color:var(--sub2);font-family:inherit;font-size:12.5px;cursor:pointer;padding:4px 10px}
 .pin-close:hover{color:var(--ink)}
 @keyframes pinshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}50%{transform:translateX(8px)}75%{transform:translateX(-5px)}}
-.pin-pad{display:grid;grid-template-columns:repeat(3,74px);gap:12px;justify-content:center}
+.pin-pad{display:grid;grid-template-columns:repeat(3,74px);gap:12px;justify-content:center;margin-top:20px}
 .pin-pad button{height:58px;border-radius:16px;border:1px solid var(--line2);background:var(--card);color:var(--ink);font-family:inherit;font-size:20px;font-weight:600;cursor:pointer}
 .pin-pad button:active{background:var(--accent);border-color:var(--c-purple)}
 .pin-pad button.ghost{background:none;border-color:transparent;font-size:14px;color:var(--sub)}
@@ -1423,7 +1423,25 @@ body.secret-locked .mode-toggle{display:none}
 .pop-hero{text-align:center;padding:28px 10px 14px}
 .ph-t{font-size:24px;font-weight:700;line-height:1.35}
 .ph-s{font-size:14px;color:var(--sub);margin-top:10px;line-height:1.55}
-.pop-card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--line2);border-radius:18px;padding:18px 20px;margin-bottom:14px;display:flex;align-items:center;gap:16px}
+.pop-card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--line2);border-radius:18px;padding:18px 20px;margin-bottom:14px;display:flex;align-items:center;gap:16px;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.pop-card:active{transform:scale(.985)}
+.pop-card.sel{border-color:rgba(233,197,131,.55);box-shadow:0 0 22px rgba(233,197,131,.15)}
+.pop-chk{margin-left:auto;flex:none;font-size:11px;font-weight:800;color:#E9C583;white-space:nowrap}
+.pop-tap-hint{text-align:center;font-size:11px;color:var(--sub2);margin:2px 0 14px;letter-spacing:.04em}
+/* 💆 시술 관리법 */
+.care-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:16px 16px 14px;margin-bottom:12px}
+.care-h{display:flex;align-items:center;gap:9px}
+.care-ic{font-size:17px}
+.care-nm{font-size:13.5px;font-weight:700}
+.care-edited{margin-left:auto;font-size:8.5px;font-weight:800;color:#7BD8A8;border:1px solid rgba(123,216,168,.35);background:rgba(123,216,168,.07);border-radius:999px;padding:3px 9px}
+.care-tips{margin:10px 0 0 2px;padding:0;list-style:none}
+.care-tips li{font-size:11px;color:var(--sub);line-height:1.75;padding-left:14px;position:relative}
+.care-tips li::before{content:'✦';position:absolute;left:0;top:0;color:#E9C583;font-size:9px}
+.care-msg{margin-top:11px;background:rgba(142,123,240,.06);border:1px dashed rgba(201,185,255,.25);border-radius:11px;padding:11px 12px;font-size:11px;color:var(--sub);line-height:1.75;white-space:pre-wrap}
+.care-btns{display:flex;gap:7px;margin-top:11px}
+.care-copy{flex:1;border:none;border-radius:10px;padding:10px;font-family:inherit;font-size:11px;font-weight:800;cursor:pointer;background:linear-gradient(135deg,#8E7BF0,#D46FA8);color:#fff}
+.care-edit{border:1px solid rgba(255,255,255,.16);background:none;color:var(--sub);border-radius:10px;padding:10px 13px;font-family:inherit;font-size:11px;cursor:pointer}
+.care-reset{border:1px solid rgba(255,255,255,.12);background:none;color:var(--sub2);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:12px;cursor:pointer}
 .pop-ic{width:48px;height:48px;border-radius:14px;background:rgba(168,232,90,.14);border:1px solid rgba(168,232,90,.3);display:grid;place-items:center;font-size:22px;flex:0 0 auto}
 .pop-b{flex:1;min-width:0}
 .pop-n{font-size:16px;font-weight:700;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
@@ -2090,7 +2108,7 @@ body.secret-locked .mode-toggle{display:none}
       <div class="c2-item" onclick="openGallery()"><span class="no">02</span><div class="tx">스타일 갤러리<div class="ds">얼굴형별 추천 스타일북</div></div><span class="go">→</span></div>
       <div class="c2-item" onclick="openReels()"><span class="no">03</span><div class="tx">릴스 편집<div class="ds">영상 위에 처방 모션 — 저장까지</div></div><span class="go">→</span></div>
     </div>
-    <div class="c2-foot2">CUSTOMER PARTNER · HAIR CRM STUDIO</div>
+    <div class="c2-foot2">STYLE PARTNER · HAIR CRM STUDIO</div>
   </div>
 </div>
 
@@ -2348,7 +2366,7 @@ body.secret-locked .mode-toggle{display:none}
 <!-- 오늘의 요약 카드 (카톡 전송용 이미지) -->
 <div class="sco-bg" id="scOvBg" onclick="closeSumCard()"></div>
 <div class="sco" id="scOv">
-  <div class="sco-t serif">오늘의 스타일 카드</div>
+  <div class="sco-t serif">오늘의 파트너</div>
   <img id="scImg" alt="요약 카드">
   <div class="sco-hint">이미지를 저장해 고객님 카톡으로 보내주세요.<br>다음 방문일이 고객 폰에 남아요.</div>
   <div style="display:flex;gap:10px;width:100%">
@@ -2633,7 +2651,12 @@ body.secret-locked .mode-toggle{display:none}
     <div class="pin-s" id="pinSub">비밀번호 4자리를 입력하세요</div>
     <div class="pin-dots" id="pinDots" onclick="pinFocus()"><span></span><span></span><span></span><span></span></div>
     <input id="pinHid" type="password" inputmode="numeric" autocomplete="off" class="pin-hid">
-    <button class="pin-close" onclick="pinCancel()">닫기</button>
+    <div class="pin-pad">
+      <button onclick="pinKey('1')">1</button><button onclick="pinKey('2')">2</button><button onclick="pinKey('3')">3</button>
+      <button onclick="pinKey('4')">4</button><button onclick="pinKey('5')">5</button><button onclick="pinKey('6')">6</button>
+      <button onclick="pinKey('7')">7</button><button onclick="pinKey('8')">8</button><button onclick="pinKey('9')">9</button>
+      <button class="ghost" onclick="pinCancel()">취소</button><button onclick="pinKey('0')">0</button><button class="ghost" onclick="pinKey('del')">⌫</button>
+    </div>
   </div>
 </div>
 
@@ -2839,6 +2862,7 @@ body.secret-locked .mode-toggle{display:none}
         <div class="mg-item" onclick="mgOpen('lookbook')"><span class="mg-ic">📸</span><div class="mg-b"><div class="mg-t">시안·룩북</div><div class="mg-d">매장 디자인 사진 · 상담/갤러리에 노출</div></div><span class="mg-ar">›</span></div>
         <div class="mg-item" onclick="mgOpen('cover')"><span class="mg-ic">🖼</span><div class="mg-b"><div class="mg-t">메인 표지 사진</div><div class="mg-d">첫 화면에 흐르는 내 사진 7칸 · 안 채우면 빈 칩</div></div><span class="mg-ar">›</span></div>
         <div class="mg-item" onclick="mgOpen('product')"><span class="mg-ic">🛍️</span><div class="mg-b"><div class="mg-t">제품 추천</div><div class="mg-d">홈케어 제품 등록</div></div><span class="mg-ar">›</span></div>
+        <div class="mg-item" onclick="mgOpen('care')"><span class="mg-ic">💆</span><div class="mg-b"><div class="mg-t">시술 관리법</div><div class="mg-d">시술별 홈케어 가이드 · 고객 메시지 복사</div></div><span class="mg-ar">›</span></div>
         <div class="mg-item" onclick="mgOpen('event')"><span class="mg-ic">🎉</span><div class="mg-b"><div class="mg-t">이벤트·세일</div><div class="mg-d">시즌 프로모션 · 제안에 얹기</div></div><span class="mg-ar">›</span></div>
         <div class="mg-item" onclick="mgOpen('promo')"><span class="mg-ic">💳</span><div class="mg-b"><div class="mg-t">회원권·프로모션</div><div class="mg-d">멤버십·패키지 · 예약 화면에 노출</div></div><span class="mg-ar">›</span></div>
         <div class="mg-item" onclick="mgOpen('segment')"><span class="mg-ic">🏷️</span><div class="mg-b"><div class="mg-t">고객 세그먼트</div><div class="mg-d">신규·단골·VIP 분류 기준</div></div><span class="mg-ar">›</span></div>
@@ -4866,7 +4890,6 @@ function openPin(after){
   document.getElementById('pinSub').textContent=localStorage.getItem(PIN_KEY)?'비밀번호 4자리를 입력하세요':'비밀번호 4자리를 입력하세요 · 처음엔 0000';
   renderPinDots();
   document.getElementById('pinOv').classList.add('on');
-  pinFocus();
 }
 function openPinChange(){
   _pinAfter=null;_pinBuf='';_pinStage='set1';_pinChange=true;
@@ -4874,10 +4897,9 @@ function openPinChange(){
   document.getElementById('pinSub').textContent='새 비밀번호 4자리를 정해주세요';
   renderPinDots();
   document.getElementById('pinOv').classList.add('on');
-  pinFocus();
 }
 /* 숨은 입력칸 포커스 → 폰에선 숫자 키보드가 올라옴 (키패드 대체) */
-function pinFocus(){var h=document.getElementById('pinHid');if(h){h.value='';setTimeout(function(){h.focus();},80);}}
+function pinFocus(){var h=document.getElementById('pinHid');if(h){h.value='';h.focus();}} /* 제스처 안에서 즉시 focus (iOS는 지연 focus 시 키보드 차단) — 키패드가 기본, 이건 물리 키보드용 보조 */
 function closePin(){document.getElementById('pinOv').classList.remove('on');_pinBuf='';}
 function pinCancel(){
   closePin();
@@ -5286,7 +5308,7 @@ function renderReportView(){
   var tops=r.top.map(function(t,i){return '<div class="rp-topitem"><div class="rank">'+(i+1)+'</div><div style="flex:1;min-width:0"><div class="nm">'+t[0]+'</div><div class="why">'+t[1]+'</div></div><div class="stars">'+t[2]+'</div></div>';}).join('');
   var avoids=r.avoid.map(function(a){return '<div class="rp-topitem avoid"><div class="rank">✕</div><div style="flex:1;min-width:0"><div class="nm">'+a[0]+'</div><div class="why">'+a[1]+'</div></div></div>';}).join('');
   document.getElementById('rpBody').innerHTML=
-    '<div class="rp-head"><div class="rp-eyebrow">CUSTOMER PARTNER · DIAGNOSIS REPORT</div><div class="rp-t">'+who+' 진단 리포트</div><div class="rp-d">'+fmtAppt(todayYMD())+' · 담당 디자이너 진단 기준</div></div>'+
+    '<div class="rp-head"><div class="rp-eyebrow">STYLE PARTNER · DIAGNOSIS REPORT</div><div class="rp-t">'+who+' 진단 리포트</div><div class="rp-d">'+fmtAppt(todayYMD())+' · 담당 디자이너 진단 기준</div></div>'+
     '<div class="rp-sec"><div class="rp-no"><span class="n">01</span><span class="t">얼굴형 진단 요약</span><span class="en">FACE SHAPE</span></div>'+
       '<div class="rp-sum">'+(img?'<img src="'+img+'">':'')+'<div style="flex:1;min-width:0"><div><span class="rp-shape">'+S.face+'</span><span class="rp-badge">원장 판정</span></div><div class="rp-tags">'+r.tags+'</div><div class="rp-line">'+r.line+'</div></div></div></div>'+
     '<div class="rp-sec"><div class="rp-no"><span class="n">02</span><span class="t">얼굴 비율</span><span class="en">PROPORTION</span></div>'+ratioHtml+'</div>'+
@@ -5928,7 +5950,7 @@ function makeSummaryCard(){
   g.fillText('고 객 파 트 너',W/2,96);
   g.fillStyle='#F4F2F7';g.font='700 46px "Gowun Batang",serif';
   var who=_consultCust?_consultCust.name+'님의':'오늘의';
-  g.fillText(who+' 스타일 카드',W/2,164);
+  g.fillText(who+' 파트너 카드',W/2,164);
   var t=new Date();
   g.fillStyle='#9995A5';g.font='400 22px Pretendard,sans-serif';
   g.fillText(t.getFullYear()+'년 '+(t.getMonth()+1)+'월 '+t.getDate()+'일',W/2,204);
@@ -6243,6 +6265,7 @@ const MG={
   product:{t:'🛍️ 제품 추천',soon:'홈케어 제품을 등록해 상담·예약에서 추천할 수 있어요.'},
   event:{t:'🎉 이벤트·세일',soon:'시즌 이벤트·세일가를 만들어 상담 제안에 얹을 수 있어요.'},
   promo:{t:'💳 회원권·프로모션'},
+  care:{t:'💆 시술 관리법'},
   segment:{t:'🏷️ 고객 세그먼트',soon:'신규·단골·VIP·이탈 위험 기준을 정해 고객을 자동으로 분류해요.'},
   brand:{t:'🎨 브랜드·프로필',soon:'살롱 이름·로고·톤을 설정해요. (지금은 임시 "결")'},
   cover:{t:'🖼 메인 표지 사진'}
@@ -6254,10 +6277,55 @@ function mgOpen(k){var m=MG[k];if(!m)return;document.getElementById('mgHub').sty
   else if(k==='product')renderProductAdmin();
   else if(k==='event')renderEventAdmin();
   else if(k==='promo')renderPromoAdmin();
+  else if(k==='care')renderCareAdmin();
   else if(k==='cover')renderCoverAdmin();
   else document.getElementById('mgSubBody').innerHTML=m.html||`<div class="ws-soon"><span class="si">🛠️</span>${m.soon}<br><br><b>곧 만들 예정</b></div>`;
   var sc=document.querySelector('.app-scroll');if(sc)sc.scrollTop=0;}
 function mgBack(){var h=document.getElementById('mgHub'),s=document.getElementById('mgSub');if(h)h.style.display='';if(s)s.style.display='none';}
+
+/* ===== 💆 시술 관리법 (홈케어 가이드 · 고객 메시지 복사) ===== */
+var CARE_LIB=[
+ {k:'perm',ic:'🌀',name:'펌 (일반·디지털)',tips:['첫 48시간은 묶지 않기 · 귀 뒤로 넘기지 않기','샴푸 후 컬을 쥐어짜듯 말리고, 드라이는 약풍으로','에센스는 반건조 상태에 — 컬이 하루 종일 살아있어요'],
+  msg:'오늘 펌 예쁘게 잘 나왔어요 🌀 컬을 오래 예쁘게 쓰시려면 ①첫 이틀은 머리를 묶지 말아 주세요 ②샴푸 후엔 컬을 아래에서 위로 쥐어짜듯 말려주세요 ③반쯤 말랐을 때 에센스 한 번! 이 세 가지면 컬 수명이 확 달라져요. 궁금한 건 언제든 편하게 물어보세요 😊'},
+ {k:'color',ic:'🎨',name:'염색',tips:['48시간은 샴푸 참기 — 색이 자리 잡는 시간','미온수 + 컬러 전용(약산성) 샴푸','뜨거운 열기구·강한 자외선은 색 빠짐의 주범'],
+  msg:'오늘 컬러 너무 잘 어울리세요 🎨 색을 오래 예쁘게 유지하려면 ①이틀만 샴푸를 참아주세요(색이 자리 잡는 시간이에요) ②미지근한 물 + 컬러 전용 샴푸 ③고데기 열과 강한 햇빛은 색 빠짐의 주범이니 살짝만 조심! 다음에 오시면 톤 상태 봐드릴게요 😊'},
+ {k:'bleach',ic:'✨',name:'탈색·하이톤',tips:['주 1~2회 단백질(케라틴) 트리트먼트 필수','열기구는 최소로, 쓸 땐 꼭 열보호제','보라 샴푸는 주 1~2회만 — 매일 쓰면 칙칙해져요'],
+  msg:'오늘 하이톤 정말 잘 소화하세요 ✨ 탈색모는 관리가 절반이에요. ①주 1~2회 단백질 트리트먼트 ②고데기 전엔 꼭 열보호제 ③보라 샴푸는 주 1~2회만(매일 쓰면 톤이 칙칙해져요). 이렇게만 해주시면 다음 시술 때 모발 상태가 완전히 달라요 😊'},
+ {k:'magic',ic:'💫',name:'매직·셋팅',tips:['3일간은 물결 자국 조심 — 귀걸이·안경다리·묶기 금지','자기 전 완전히 말리고 자기','뿌리 볼륨은 드라이 방향이 생명 — 앞→뒤로'],
+  msg:'오늘 결 정리 잘 됐어요 💫 매직은 첫 3일이 제일 중요해요. ①묶거나 귀 뒤로 넘기지 않기 ②꼭 다 말리고 주무세요(젖은 채 자면 자국이 남아요) ③드라이는 뿌리부터 앞→뒤 방향으로! 이 세 가지면 찰랑함이 몇 달은 가요 😊'},
+ {k:'clinic',ic:'🧴',name:'클리닉·트리트먼트',tips:['효과 유지 = 홈케어 연장 — 주 2회 홈트리트먼트','두피가 아니라 모발 중간~끝에만','다음 클리닉은 3~4주 주기가 가장 효율적'],
+  msg:'오늘 클리닉으로 영양 가득 채워드렸어요 🧴 이 결을 유지하려면 집에서 주 2회, 모발 중간부터 끝에만 트리트먼트를 발라주세요(두피는 피하기!). 3~4주 뒤에 한 번 더 하면 손상 전 상태로 계속 유지할 수 있어요 😊'},
+ {k:'scalp',ic:'🌿',name:'두피 스케일링',tips:['당일은 두피 자극(긁기·뜨거운 물) 피하기','샴푸는 저녁에 — 하루 유분은 두피 보호막','드라이 때 두피까지 바짝 말리기 — 냄새·가려움 예방'],
+  msg:'오늘 두피 깨끗하게 정돈해드렸어요 🌿 ①오늘 하루는 뜨거운 물·긁기만 피해주세요 ②샴푸는 저녁에 하는 게 두피에 좋아요 ③감은 뒤엔 두피까지 바짝 말리기! 두피가 건강해야 볼륨도 컬도 오래갑니다 😊'},
+ {k:'cut',ic:'✂️',name:'컷 (레이어드·보브)',tips:['얼굴형에 맞춘 비율은 4주면 무너져요 — 한 달 주기 각인','집 드라이는 라인 방향대로 3분이면 충분','다음 예약을 나가기 전에 잡아드리기'],
+  msg:'오늘 얼굴형 비율에 딱 맞춰 라인을 잡아드렸어요 ✂️ 이 비율은 머리가 자라면서 4주 정도면 조금씩 무너지기 시작해요. 한 달에 한 번만 다듬으면 오늘 이 느낌 그대로 유지됩니다. 다음 방문, 미리 잡아드릴까요? 😊'}
+];
+var CARE_KEY='hcs-caremsgs',CARE_CUSTOM={};
+function loadCareMsgs(){try{var s=localStorage.getItem(CARE_KEY);if(s)CARE_CUSTOM=JSON.parse(s)||{};}catch(e){}}
+function careMsgOf(k){var g=CARE_LIB.find(function(x){return x.k===k;});return (CARE_CUSTOM[k]||(g&&g.msg)||'');}
+function renderCareAdmin(){
+  loadCareMsgs();
+  var body=document.getElementById('mgSubBody');if(!body)return;
+  body.innerHTML='<div class="mg-hint">시술별 <b>홈케어 가이드</b>예요. [💬 메시지 복사]를 눌러 카톡에 붙여넣으면 시술 후 안내가 끝 — <b>두고두고 쓰는 내 관리 멘트</b>가 됩니다. [✏️]로 내 말투에 맞게 고칠 수 있어요.</div>'
+    +CARE_LIB.map(function(g){
+      var custom=!!CARE_CUSTOM[g.k];
+      return '<div class="care-card"><div class="care-h"><span class="care-ic">'+g.ic+'</span><span class="care-nm">'+g.name+'</span>'+(custom?'<span class="care-edited">내 버전</span>':'')+'</div>'
+        +'<ul class="care-tips">'+g.tips.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>'
+        +'<div class="care-msg">'+escH(careMsgOf(g.k))+'</div>'
+        +'<div class="care-btns"><button class="care-copy" onclick="careCopy(\''+g.k+'\')">💬 메시지 복사</button>'
+        +'<button class="care-edit" onclick="careEdit(\''+g.k+'\')">✏️ 내 말투로</button>'
+        +(custom?'<button class="care-reset" onclick="careReset(\''+g.k+'\')">↺</button>':'')+'</div></div>';
+    }).join('');
+}
+function careCopy(k){copyText(careMsgOf(k),'💬 관리 메시지 복사됨 — 카톡에 붙여넣으세요');}
+function careEdit(k){
+  var v=prompt('고객에게 보낼 메시지를 내 말투로 고쳐보세요',careMsgOf(k));
+  if(v===null)return;
+  if(v.trim())CARE_CUSTOM[k]=v.trim();else delete CARE_CUSTOM[k];
+  try{localStorage.setItem(CARE_KEY,JSON.stringify(CARE_CUSTOM));}catch(e){}
+  renderCareAdmin();toast('저장했어요 — 이제 이게 내 멘트예요');
+}
+function careReset(k){delete CARE_CUSTOM[k];try{localStorage.setItem(CARE_KEY,JSON.stringify(CARE_CUSTOM));}catch(e){}renderCareAdmin();toast('기본 문구로 되돌렸어요');}
 
 /* ===== 시안·룩북 ===== */
 const LB_KEY='hcs-lookbook',LB_CATS=['단발','레이어드','펌','컬러','앞머리','기타'],LB_FACES=['계란형','둥근형','긴형','각진형','하트형','땅콩형'];
@@ -7221,7 +7289,27 @@ function miniAdd(){var n=document.getElementById('mmName').value.trim();if(!n){t
 function miniDel(id){MINIMENUS=MINIMENUS.filter(function(m){return m.id!==id;});saveMini();renderMiniAdmin();}
 function renderPop(){
   var el=document.getElementById('popBody');if(!el)return;
-  el.innerHTML=MINIMENUS.length?MINIMENUS.map(function(m){return `<div class="pop-card"><div class="pop-ic">🌿</div><div class="pop-b"><div class="pop-n">${m.name} <span class="mini-badge mini">미니</span></div><div class="pop-d">${m.benefit||''}</div><div class="pop-p">+${(+m.price||0).toLocaleString()}원</div></div></div>`;}).join(''):'<div class="gv-empty">등록된 미니메뉴가 없어요.<br>관리 &gt; 미니메뉴 POP에서 추가하세요.</div>';
+  var canPick=(typeof S!=='undefined'&&S&&Array.isArray(S.menus));
+  el.innerHTML=(canPick?'<div class="pop-tap-hint">👆 탭하면 오늘 견적에 담겨요</div>':'')
+    +(MINIMENUS.length?MINIMENUS.map(function(m){
+      var on=canPick&&S.menus.some(function(x){return x.name===m.name;});
+      return `<div class="pop-card${on?' sel':''}" data-name="${escH(m.name)}" data-price="${+m.price||0}" ${canPick?'onclick="popPick(this)"':''}><div class="pop-ic">🌿</div><div class="pop-b"><div class="pop-n">${m.name} <span class="mini-badge mini">미니</span></div><div class="pop-d">${m.benefit||''}</div><div class="pop-p">+${(+m.price||0).toLocaleString()}원</div></div><div class="pop-chk">${on?'✓ 담김':''}</div></div>`;
+    }).join(''):'<div class="gv-empty">등록된 미니메뉴가 없어요.<br>관리 &gt; 미니메뉴 POP에서 추가하세요.</div>');
+}
+/* POP에서 탭 → 오늘 견적에 담기/빼기 */
+function popPick(el){
+  if(typeof S==='undefined'||!S||!Array.isArray(S.menus)){toast('상담 중에 담을 수 있어요');return;}
+  var name=el.dataset.name,price=+el.dataset.price;
+  var i=S.menus.findIndex(function(x){return x.name===name;});
+  if(i>=0){
+    S.menus.splice(i,1);el.classList.remove('sel');el.querySelector('.pop-chk').textContent='';
+    toast(name+' — 견적에서 뺐어요');
+  }else{
+    S.menus.push({name:name,price:price});el.classList.add('sel');el.querySelector('.pop-chk').textContent='✓ 담김';
+    toast('🌿 '+name+' — 오늘 견적에 담았어요');
+  }
+  if(typeof renderQuote==='function')renderQuote();
+  if(typeof buildMenus==='function')buildMenus(); /* 제안 목록 체크상태 동기화 */
 }
 function openPop(){renderPop();document.getElementById('popView').classList.add('on');window.scrollTo(0,0);}
 function closePop(){document.getElementById('popView').classList.remove('on');}
